@@ -9,6 +9,8 @@ packages = [{include = "fastapi_tutorial"}]
 [tool.poetry.dependencies]
 python = "^3.9"
 pre-commit = "^3.3.3"
+uvicorn = "^0.23.1"
+fastapi = "^0.100.1"
 
 
 [build-system]
