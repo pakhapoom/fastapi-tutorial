@@ -1,0 +1,37 @@
+[tool.poetry]
+name = "fastapi-tutorial"
+version = "0.1.0"
+description = ""
+authors = ["Pakhapoom <pakhapoom.sar@gmail.com>"]
+readme = "README.md"
+packages = [{include = "fastapi_tutorial"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pre-commit = "^3.3.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 90
+
+[tool.isort]
+profile = "black"
+sections = [
+    "FUTURE",
+    "STDLIB",
+    "FIRSTPARTY",
+    "THIRDPARTY",
+    "LOCALFOLDER",
+]
+import_heading_future = "import: future"
+import_heading_stdlib = "import: standard"
+import_heading_firstparty = "import: internal"
+import_heading_thirdparty = "import: external"
+import_heading_localfolder = "import: private"
+force_single_line = "true"
+include_trailing_comma = "true"
+line_length = 90
