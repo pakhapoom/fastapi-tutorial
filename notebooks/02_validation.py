@@ -61,7 +61,7 @@ async def read_all_books():
     return BOOKS
 
 @app.get("/books/publish/")
-async def read_books_by_publish_date(published_date: int):
+async def read_books_by_publish_date(published_date: int = Query(gt=1999, lt=2031)):
     books_to_return = []
     for book in BOOKS:
         if book.published_date == published_date:
@@ -78,13 +78,13 @@ def find_book_id(book: Book):
     return book
 
 @app.get("/books/{book_id}")
-async def read_book(book_id: int = Path(gt=0)):
+async def read_book(book_id: int = Path(gt=0)): # validate the path parameter to accept only those > 0
     for book in BOOKS:
         if book.id == book_id:
             return book
 
 @app.get("/books/")
-async def read_book_by_rating(book_rating: int = Query(gt=0, lt=6)):
+async def read_book_by_rating(book_rating: int = Query(gt=0, lt=6)): # validate the query parameter
     books_to_return = []
     for book in BOOKS:
         if book.rating == book_rating:
@@ -98,7 +98,7 @@ async def update_book(book: BookRequest):
             BOOKS[i] = book
 
 @app.delete("/books/{book_id}")
-async def delete_book(book_id: int):
+async def delete_book(book_id: int = Path(gt=0)):
     for i in range(len(BOOKS)):
         if BOOKS[i].id == book_id:
             BOOKS.pop(i)
