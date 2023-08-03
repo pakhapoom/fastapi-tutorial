@@ -11,6 +11,7 @@ python = "^3.9"
 pre-commit = "^3.3.3"
 uvicorn = "^0.23.1"
 fastapi = "^0.100.1"
+sqlalchemy = "^2.0.19"
 
 
 [build-system]
