@@ -12,6 +12,8 @@ pre-commit = "^3.3.3"
 uvicorn = "^0.23.1"
 fastapi = "^0.100.1"
 sqlalchemy = "^2.0.19"
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+python-multipart = "^0.0.6"
 
 
 [build-system]
