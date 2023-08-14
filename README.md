@@ -28,3 +28,11 @@ A status code contains 3 digits which represents different scenario of a situati
 3. `3xx`: redirection (requires some actions to process first).
 4. `4xx`: client error.
 5. `5xx`: server error.
+
+## Json Web Token (JWT)
+* It is an object to securely transmit data between two parties using json object.
+* It is usually used in auuthentication process.
+* It contains header (cryptographic algorithm used to encode/decode), payload (data), and signature (encoded content).
+* Please visit: [jwt.io](https://jwt.io) for more information.
+
+> it requires a secret key which can be found from running `openssl rand -hex 32`.
