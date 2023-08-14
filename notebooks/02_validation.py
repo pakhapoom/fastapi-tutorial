@@ -1,8 +1,16 @@
+# import: standard
 from typing import Optional
 
-from fastapi import FastAPI, Path, Query, HTTPException
-from pydantic import BaseModel, Field
-from starlette import status # return in response headers
+# import: fastapi
+from fastapi import FastAPI
+from fastapi import HTTPException
+from fastapi import Path
+from fastapi import Query
+from starlette import status  # return in response headers
+
+# import: external
+from pydantic import BaseModel
+from pydantic import Field
 
 app = FastAPI()
 
@@ -23,6 +31,7 @@ class Book:
         self.rating = rating
         self.published_date = published_date
 
+
 class BookRequest(BaseModel):
     id: Optional[int] = None
     title: str = Field(min_length=3)
@@ -32,33 +41,37 @@ class BookRequest(BaseModel):
     published_date: int = Field(gt=1999, lt=2031)
 
     # change example of body in the post request to `schema_extra`
-    # normally, it uses datatype as default, meaning that 
+    # normally, it uses datatype as default, meaning that
     # the defaul value of `ttitle` is `string``
     class Config:
         # schema_extra in pydantic1
         json_schema_extra = {
-            'example': {
-                'title': 'A new book',
-                'author': 'codingwithroby',
-                'description': 'A new description of a book',
-                'rating': 5,
-                'published_date': 2029
+            "example": {
+                "title": "A new book",
+                "author": "codingwithroby",
+                "description": "A new description of a book",
+                "rating": 5,
+                "published_date": 2029,
             }
         }
 
+
 BOOKS = [
-    Book(1, 'Computer Science Pro', 'codingwithroby', 'A very nice book!', 5, 2030),
-    Book(2, 'Be Fast with FastAPI', 'codingwithroby', 'A great book!', 5, 2030),
-    Book(3, 'Master Endpoints', 'codingwithroby', 'A awesome book!', 5, 2029),
-    Book(4, 'HP1', 'Author 1', 'Book Description', 2, 2028),
-    Book(5, 'HP2', 'Author 2', 'Book Description', 3, 2027),
-    Book(6, 'HP3', 'Author 3', 'Book Description', 1, 2026)
+    Book(1, "Computer Science Pro", "codingwithroby", "A very nice book!", 5, 2030),
+    Book(2, "Be Fast with FastAPI", "codingwithroby", "A great book!", 5, 2030),
+    Book(3, "Master Endpoints", "codingwithroby", "A awesome book!", 5, 2029),
+    Book(4, "HP1", "Author 1", "Book Description", 2, 2028),
+    Book(5, "HP2", "Author 2", "Book Description", 3, 2027),
+    Book(6, "HP3", "Author 3", "Book Description", 1, 2026),
 ]
 
 
-@app.get("/books", status_code=status.HTTP_200_OK) # once the request is successfully processed, it returns 200 OK status.
+@app.get(
+    "/books", status_code=status.HTTP_200_OK
+)  # once the request is successfully processed, it returns 200 OK status.
 async def read_all_books():
     return BOOKS
+
 
 @app.get("/books/publish/", status_code=status.HTTP_200_OK)
 async def read_books_by_publish_date(published_date: int = Query(gt=1999, lt=2031)):
@@ -68,29 +81,38 @@ async def read_books_by_publish_date(published_date: int = Query(gt=1999, lt=203
             books_to_return.append(book)
     return books_to_return
 
+
 @app.post("/create-book", status_code=status.HTTP_201_CREATED)
 async def create_book(book_request: BookRequest):
-    new_book = Book(**book_request.model_dump()) # .dict() in pydantic1
+    new_book = Book(**book_request.model_dump())  # .dict() in pydantic1
     BOOKS.append(find_book_id(new_book))
+
 
 def find_book_id(book: Book):
     book.id = 1 if len(BOOKS) == 0 else BOOKS[-1].id + 1
     return book
 
+
 @app.get("/books/{book_id}", status_code=status.HTTP_200_OK)
-async def read_book(book_id: int = Path(gt=0)): # validate the path parameter to accept only those > 0
+async def read_book(
+    book_id: int = Path(gt=0),
+):  # validate the path parameter to accept only those > 0
     for book in BOOKS:
         if book.id == book_id:
             return book
     raise HTTPException(status_code=404, detail="Item not found")
 
+
 @app.get("/books/", status_code=status.HTTP_200_OK)
-async def read_book_by_rating(book_rating: int = Query(gt=0, lt=6)): # validate the query parameter
+async def read_book_by_rating(
+    book_rating: int = Query(gt=0, lt=6)
+):  # validate the query parameter
     books_to_return = []
     for book in BOOKS:
         if book.rating == book_rating:
             books_to_return.append(book)
     return books_to_return
+
 
 @app.put("/books/update_book", status_code=status.HTTP_204_NO_CONTENT)
 async def update_book(book: BookRequest):
@@ -101,6 +123,7 @@ async def update_book(book: BookRequest):
             book_changed = True
     if not book_changed:
         raise HTTPException(status_code=404, detail="Item not found")
+
 
 @app.delete("/books/{book_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_book(book_id: int = Path(gt=0)):

@@ -1,5 +1,13 @@
+# import: internal
 from fastapi_tutorial.database import Base
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
+
+# import: external
+from sqlalchemy import Boolean
+from sqlalchemy import Column
+from sqlalchemy import ForeignKey
+from sqlalchemy import Integer
+from sqlalchemy import String
+
 
 class Users(Base):
     __tablename__ = "users"
@@ -12,11 +20,12 @@ class Users(Base):
     is_active = Column(Boolean, default=True)
     role = Column(String)
 
+
 class Todos(Base):
     __tablename__ = "todos"
 
     id = Column(
-        Integer, 
+        Integer,
         primary_key=True,
         index=True,
     )
@@ -24,7 +33,7 @@ class Todos(Base):
     description = Column(String)
     priority = Column(Integer)
     complete = Column(
-        Boolean, 
+        Boolean,
         default=False,
     )
     owner_id = Column(

@@ -1,7 +1,13 @@
+# import: fastapi
 from fastapi import FastAPI
+
+# import: internal
 from fastapi_tutorial import models
 from fastapi_tutorial.database import engine
-from fastapi_tutorial.routers import auth, todos, admin, users
+from fastapi_tutorial.routers import admin
+from fastapi_tutorial.routers import auth
+from fastapi_tutorial.routers import todos
+from fastapi_tutorial.routers import users
 
 # uvicorn fastapi_tutorial.main:app --reload
 app = FastAPI()

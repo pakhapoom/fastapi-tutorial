@@ -26,15 +26,18 @@ line-length = 90
 
 [tool.isort]
 profile = "black"
+known_fastapi = ["fastapi", "starlette"]
 sections = [
     "FUTURE",
     "STDLIB",
+    "FASTAPI",
     "FIRSTPARTY",
     "THIRDPARTY",
     "LOCALFOLDER",
 ]
 import_heading_future = "import: future"
 import_heading_stdlib = "import: standard"
+import_heading_fastapi = "import: fastapi"
 import_heading_firstparty = "import: internal"
 import_heading_thirdparty = "import: external"
 import_heading_localfolder = "import: private"
